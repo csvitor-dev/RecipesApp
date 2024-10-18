@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\RecipesApp.Communication\RecipesApp.Communication.csproj" />
+    <ProjectReference Include="..\..\Shared\RecipesApp.Exception\RecipesApp.Exception.csproj" />
+    <ProjectReference Include="..\RecipesApp.Domain\RecipesApp.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
