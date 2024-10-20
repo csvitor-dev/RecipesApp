@@ -1,4 +1,6 @@
-﻿using RecipesApp.Communication.Requests;
+﻿using AutoMapper;
+using RecipesApp.Application.Services;
+using RecipesApp.Communication.Requests;
 using RecipesApp.Communication.Responses;
 using RecipesApp.Exception.Project;
 
@@ -11,6 +13,15 @@ public class RegisterUserUC
     public RegisterUserResponseJSON Execute(RegisterUserRequestJSON request)
     {
         Validate(request);
+
+        IMapper map = new MapperConfiguration((opt) =>
+        {
+            opt.AddProfile(new AutoMappingService());
+        }).CreateMapper();
+        PasswordEncryptionService pw = new();
+
+        var user = map.Map<Domain.Entities.User>(request);
+        user.Password = pw.Encrypt(request.Password);
 
         return new(request.Name);
     }
