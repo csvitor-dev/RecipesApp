@@ -1,5 +1,6 @@
 ﻿using RecipesApp.Communication.Requests;
 using RecipesApp.Communication.Responses;
+using RecipesApp.Exception.Project;
 
 namespace RecipesApp.Application.UseCases.User.Register;
 
@@ -19,8 +20,8 @@ public class RegisterUserUC
 
         if (result.IsValid)
             return;
-        var errorMessages = from errors in result.Errors select errors.ErrorMessage;
+        var errorMessages = (from errors in result.Errors select errors.ErrorMessage).ToList();
 
-        throw new Exception();
+        throw new ErrorOnValidationException(errorMessages);
     }
 }
