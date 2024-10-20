@@ -2,15 +2,18 @@
 using RecipesApp.Application.Services;
 using RecipesApp.Communication.Requests;
 using RecipesApp.Communication.Responses;
+using RecipesApp.Domain.Repositories.User;
 using RecipesApp.Exception.Project;
 
 namespace RecipesApp.Application.UseCases.User.Register;
 
-public class RegisterUserUC
+public class RegisterUserUC(IUserReadOnlyRepository readRepo, IUserWriteOnlyRepository writeRepo)
 {
     private readonly RegisterUserValidator _validator = new();
+    private readonly IUserReadOnlyRepository _readRepo = readRepo;
+    private readonly IUserWriteOnlyRepository _writeRepo = writeRepo;
 
-    public RegisterUserResponseJSON Execute(RegisterUserRequestJSON request)
+    public async Task<RegisterUserResponseJSON> Execute(RegisterUserRequestJSON request)
     {
         Validate(request);
 
@@ -22,6 +25,8 @@ public class RegisterUserUC
 
         var user = map.Map<Domain.Entities.User>(request);
         user.Password = pw.Encrypt(request.Password);
+
+        await _writeRepo.AddUserAsync(user);
 
         return new(request.Name);
     }
