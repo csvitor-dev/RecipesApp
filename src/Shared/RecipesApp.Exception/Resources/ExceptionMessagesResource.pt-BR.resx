@@ -132,4 +132,10 @@
   <data name="PASSWORD_LENGTH" xml:space="preserve">
     <value>A senha deve conter pelo menos 6 caracteres </value>
   </data>
+  <data name="UNKNOWN_ERROR" xml:space="preserve">
+    <value>Um erro inesperado ocorreu</value>
+  </data>
+  <data name="SERVICE_FAIL" xml:space="preserve">
+    <value>O serviço se encontra indisponível</value>
+  </data>
 </root>

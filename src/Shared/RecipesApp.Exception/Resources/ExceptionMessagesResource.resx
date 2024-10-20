@@ -132,4 +132,10 @@
   <data name="PASSWORD_LENGTH" xml:space="preserve">
     <value>Password must be at least 6 characters along</value>
   </data>
+  <data name="UNKNOWN_ERROR" xml:space="preserve">
+    <value>An unexpected error occurred</value>
+  </data>
+  <data name="SERVICE_FAIL" xml:space="preserve">
+    <value>The service is unavailable</value>
+  </data>
 </root>

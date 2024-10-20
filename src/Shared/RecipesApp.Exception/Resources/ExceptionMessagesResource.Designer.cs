@@ -104,5 +104,23 @@ namespace RecipesApp.Exception.Resources {
                 return ResourceManager.GetString("PASSWORD_REQUIRED", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The service is unavailable.
+        /// </summary>
+        internal static string SERVICE_FAIL {
+            get {
+                return ResourceManager.GetString("SERVICE_FAIL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An unexpected error occurred.
+        /// </summary>
+        internal static string UNKNOWN_ERROR {
+            get {
+                return ResourceManager.GetString("UNKNOWN_ERROR", resourceCulture);
+            }
+        }
     }
 }
