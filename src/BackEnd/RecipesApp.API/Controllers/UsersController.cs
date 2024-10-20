@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RecipesApp.Application.UseCases.User.Register;
 using RecipesApp.Communication.Requests;
 using RecipesApp.Communication.Responses;
 
@@ -12,8 +13,9 @@ public class UsersController : ControllerBase
     [ProducesResponseType(typeof(RegisterUserResponseJSON), StatusCodes.Status201Created)]
     public IActionResult Register(RegisterUserRequestJSON request)
     {
-        RegisterUserResponseJSON response = new(request.Name);
+        RegisterUserUC uc = new();
+        RegisterUserResponseJSON result = uc.Execute(request);
         
-        return Created(string.Empty, response);
+        return Created(string.Empty, result);
     }
 }
