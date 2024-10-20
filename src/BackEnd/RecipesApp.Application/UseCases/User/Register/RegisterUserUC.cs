@@ -18,8 +18,10 @@ public class RegisterUserUC
         {
             opt.AddProfile(new AutoMappingService());
         }).CreateMapper();
+        PasswordEncryptionService pw = new();
 
         var user = map.Map<Domain.Entities.User>(request);
+        user.Password = pw.Encrypt(request.Password);
 
         return new(request.Name);
     }
