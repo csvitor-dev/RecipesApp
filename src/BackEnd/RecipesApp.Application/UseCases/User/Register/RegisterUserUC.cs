@@ -7,24 +7,24 @@ using RecipesApp.Exception.Project;
 
 namespace RecipesApp.Application.UseCases.User.Register;
 
-public class RegisterUserUC(IUserReadOnlyRepository readRepo, IUserWriteOnlyRepository writeRepo)
+public class RegisterUserUC(
+    IUserReadOnlyRepository readRepo,
+    IUserWriteOnlyRepository writeRepo,
+    IMapper map,
+    PasswordEncryptionService service
+) : IRegisterUserUC
 {
-    private readonly RegisterUserValidator _validator = new();
     private readonly IUserReadOnlyRepository _readRepo = readRepo;
     private readonly IUserWriteOnlyRepository _writeRepo = writeRepo;
+    private readonly IMapper _map = map;
+    private readonly PasswordEncryptionService _service = service;
 
     public async Task<RegisterUserResponseJSON> Execute(RegisterUserRequestJSON request)
     {
         Validate(request);
 
-        IMapper map = new MapperConfiguration((opt) =>
-        {
-            opt.AddProfile(new AutoMappingService());
-        }).CreateMapper();
-        PasswordEncryptionService pw = new();
-
-        var user = map.Map<Domain.Entities.User>(request);
-        user.Password = pw.Encrypt(request.Password);
+        var user = _map.Map<Domain.Entities.User>(request);
+        user.Password = _service.Encrypt(request.Password);
 
         await _writeRepo.AddUserAsync(user);
 
@@ -32,7 +32,7 @@ public class RegisterUserUC(IUserReadOnlyRepository readRepo, IUserWriteOnlyRepo
     }
     private void Validate(RegisterUserRequestJSON request)
     {
-        var result = _validator.Validate(request);
+        var result = new RegisterUserValidator().Validate(request);
 
         if (result.IsValid)
             return;
