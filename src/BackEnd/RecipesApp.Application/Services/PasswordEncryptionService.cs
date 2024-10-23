@@ -3,11 +3,11 @@ using System.Text;
 
 namespace RecipesApp.Application.Services;
 
-internal class PasswordEncryptionService
+public class PasswordEncryptionService
 {
     private const string _KEY = "net";
 
-    internal string Encrypt(string password)
+    public string Encrypt(string password)
     {
         password = $"{password}{_KEY}";
         byte[] bytes = Encoding.UTF8.GetBytes(password);

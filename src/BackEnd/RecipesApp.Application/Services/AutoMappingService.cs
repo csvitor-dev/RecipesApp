@@ -4,9 +4,9 @@ using RecipesApp.Domain.Entities;
 
 namespace RecipesApp.Application.Services;
 
-internal class AutoMappingService : Profile
+public class AutoMappingService : Profile
 {
-    internal AutoMappingService()
+    public AutoMappingService()
     {
         RequestToDomain();
     }
