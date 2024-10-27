@@ -59,7 +59,18 @@ namespace RecipesApp.Exception.Resources {
                 resourceCulture = value;
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to The email entered is already registered.
+        /// </summary>
+        internal static string EMAIL_ALREADY_REGISTERED
+        {
+            get
+            {
+                return ResourceManager.GetString("EMAIL_ALREADY_REGISTERED", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Email isn&apos;t valid.
         /// </summary>

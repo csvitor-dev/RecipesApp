@@ -138,4 +138,7 @@
   <data name="SERVICE_FAIL" xml:space="preserve">
     <value>The service is unavailable</value>
   </data>
+  <data name="EMAIL_ALREADY_REGISTERED" xml:space="preserve">
+    <value>The email entered is already registered</value>
+  </data>
 </root>

@@ -5,6 +5,7 @@ using RecipesApp.Communication.Responses;
 using RecipesApp.Domain.Repositories;
 using RecipesApp.Domain.Repositories.User;
 using RecipesApp.Exception.Project;
+using RecipesApp.Exception.Resources;
 
 namespace RecipesApp.Application.UseCases.User.Register;
 
@@ -24,7 +25,7 @@ public class RegisterUserUC(
 
     public async Task<RegisterUserResponseJSON> Execute(RegisterUserRequestJSON request)
     {
-        Validate(request);
+        await Validate(request);
 
         var user = _map.Map<Domain.Entities.User>(request);
         user.Password = _service.Encrypt(request.Password);
@@ -35,9 +36,15 @@ public class RegisterUserUC(
 
         return new(request.Name);
     }
-    private void Validate(RegisterUserRequestJSON request)
+    private async Task Validate(RegisterUserRequestJSON request)
     {
         var result = new RegisterUserValidator().Validate(request);
+
+        var emailExists = await _readRepo.ExistsActiveUserWithEmailAsync(request.Email);
+
+        if (emailExists)
+            result.Errors.Add(new(string.Empty,
+                ResourcesAccessor.EMAIL_ALREADY_REGISTERED));
 
         if (result.IsValid)
             return;
