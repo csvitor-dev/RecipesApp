@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using RecipesApp.Domain.Repositories;
 using RecipesApp.Domain.Repositories.User;
 using RecipesApp.Infra.Data;
 using RecipesApp.Infra.Data.Repositories;
@@ -28,5 +29,6 @@ public static class InfrastructureDIExtension
     {
         services.AddScoped<IUserReadOnlyRepository, UserRepository>();
         services.AddScoped<IUserWriteOnlyRepository, UserRepository>();
+        services.AddScoped<IUnitOfWork, PersistenceUnitOfWork>();
     }
 }
