@@ -2,32 +2,49 @@
 using RecipesApp.Application.Services;
 using RecipesApp.Communication.Requests;
 using RecipesApp.Communication.Responses;
+using RecipesApp.Domain.Repositories;
+using RecipesApp.Domain.Repositories.User;
 using RecipesApp.Exception.Project;
+using RecipesApp.Exception.Resources;
 
 namespace RecipesApp.Application.UseCases.User.Register;
 
-public class RegisterUserUC
+public class RegisterUserUC(
+    IUserReadOnlyRepository readRepo,
+    IUserWriteOnlyRepository writeRepo,
+    IUnitOfWork uw,
+    IMapper map,
+    PasswordEncryptionService service
+) : IRegisterUserUC
 {
-    private readonly RegisterUserValidator _validator = new();
+    private readonly IUserReadOnlyRepository _readRepo = readRepo;
+    private readonly IUserWriteOnlyRepository _writeRepo = writeRepo;
+    private readonly IUnitOfWork _uw = uw;
+    private readonly IMapper _map = map;
+    private readonly PasswordEncryptionService _service = service;
 
-    public RegisterUserResponseJSON Execute(RegisterUserRequestJSON request)
+    public async Task<RegisterUserResponseJSON> Execute(RegisterUserRequestJSON request)
     {
-        Validate(request);
+        await Validate(request);
 
-        IMapper map = new MapperConfiguration((opt) =>
-        {
-            opt.AddProfile(new AutoMappingService());
-        }).CreateMapper();
-        PasswordEncryptionService pw = new();
+        var user = _map.Map<Domain.Entities.User>(request);
+        user.Password = _service.Encrypt(request.Password);
 
-        var user = map.Map<Domain.Entities.User>(request);
-        user.Password = pw.Encrypt(request.Password);
+        await _writeRepo.AddUserAsync(user);
+       
+        await _uw.CommitAsync();
 
         return new(request.Name);
     }
-    private void Validate(RegisterUserRequestJSON request)
+    private async Task Validate(RegisterUserRequestJSON request)
     {
-        var result = _validator.Validate(request);
+        var result = new RegisterUserValidator().Validate(request);
+
+        var emailExists = await _readRepo.ExistsActiveUserWithEmailAsync(request.Email);
+
+        if (emailExists)
+            result.Errors.Add(new(string.Empty,
+                ResourcesAccessor.EMAIL_ALREADY_REGISTERED));
 
         if (result.IsValid)
             return;
