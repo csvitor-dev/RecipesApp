@@ -16,7 +16,7 @@ builder.Services.AddMvc(
 );
 
 builder.Services.AddApplication();
-builder.Services.AddInfra();
+builder.Services.AddInfra(builder.Configuration);
 
 var app = builder.Build();
 

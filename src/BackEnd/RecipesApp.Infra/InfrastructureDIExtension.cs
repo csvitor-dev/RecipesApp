@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RecipesApp.Domain.Repositories;
 using RecipesApp.Domain.Repositories.User;
@@ -9,18 +10,19 @@ namespace RecipesApp.Infra;
 
 public static class InfrastructureDIExtension
 {
-    public static void AddInfra(this IServiceCollection self)
+    public static void AddInfra(this IServiceCollection self, IConfiguration configuration)
     {
-        AddDbContext(self);
+        AddDbContext(self, 
+            configuration.GetConnectionString("db"));
         AddRepositories(self);
     }
 
-    private static void AddDbContext(IServiceCollection services)
+    private static void AddDbContext(IServiceCollection services, string? connection)
     {
         services.AddDbContext<RecipesAppContext>(
             (opt) =>
             {
-                opt.UseSqlServer("");
+                opt.UseSqlServer(connection); // potential exception
             }
         );
     }
