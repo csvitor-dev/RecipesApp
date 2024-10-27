@@ -15,7 +15,7 @@ builder.Services.AddMvc(
     (opt) => opt.Filters.Add(typeof(ExceptionFilter))
 );
 
-builder.Services.AddApplication();
+builder.Services.AddApplication(builder.Configuration);
 builder.Services.AddInfra(builder.Configuration);
 
 var app = builder.Build();

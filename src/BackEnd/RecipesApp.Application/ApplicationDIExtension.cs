@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RecipesApp.Application.Services;
 using RecipesApp.Application.UseCases.User.Register;
@@ -7,13 +8,14 @@ namespace RecipesApp.Application;
 
 public static class ApplicationDIExtension
 {
-    public static void AddApplication(this IServiceCollection self)
+    public static void AddApplication(this IServiceCollection self, IConfiguration configuration)
     {
-        AddServices(self);
+        var reference = configuration.GetSection("Settings:key");
+        AddServices(self, reference.Value);
         AddUseCases(self);
     }
 
-    private static void AddServices(IServiceCollection services)
+    private static void AddServices(IServiceCollection services, string? key)
     {
         services.AddScoped((service) =>
             new MapperConfiguration((opt) =>
@@ -22,7 +24,7 @@ public static class ApplicationDIExtension
             }).CreateMapper()
         );
         services.AddScoped((service) =>
-            new PasswordEncryptionService()
+            new PasswordEncryptionService(key ?? string.Empty)
         );
     }
 
