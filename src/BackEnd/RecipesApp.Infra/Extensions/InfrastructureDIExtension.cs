@@ -6,14 +6,14 @@ using RecipesApp.Domain.Repositories.User;
 using RecipesApp.Infra.Data;
 using RecipesApp.Infra.Data.Repositories;
 
-namespace RecipesApp.Infra;
+namespace RecipesApp.Infra.Extensions;
 
 public static class InfrastructureDIExtension
 {
     public static void AddInfra(this IServiceCollection self, IConfiguration configuration)
     {
-        AddDbContext(self, 
-            configuration.GetConnectionString("db"));
+        AddDbContext(self,
+            configuration.ConnectionString());
         AddRepositories(self);
     }
 
