@@ -1,7 +1,8 @@
 using RecipesApp.API.Filters;
 using RecipesApp.API.Middlewares;
 using RecipesApp.Application;
-using RecipesApp.Infra;
+using RecipesApp.Infra.Data.Migrations;
+using RecipesApp.Infra.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,4 +36,11 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+MigrateDB(builder.Configuration);
+
 app.Run();
+
+void MigrateDB(IConfiguration configuration)
+    => MigrationDB.Migrate(
+            configuration.ConnectionString()
+        );
