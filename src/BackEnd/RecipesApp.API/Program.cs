@@ -36,11 +36,11 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-MigrateDB(builder.Configuration);
+MigrateDb(builder.Configuration);
 
 app.Run();
 
-void MigrateDB(IConfiguration configuration)
+void MigrateDb(IConfiguration configuration)
     => MigrationDB.Migrate(
-            configuration.ConnectionString()
-        );
+        configuration.ConnectionString()
+    );
