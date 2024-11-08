@@ -41,6 +41,12 @@ MigrateDb(builder.Configuration);
 app.Run();
 
 void MigrateDb(IConfiguration configuration)
-    => MigrationDB.Migrate(
-        configuration.ConnectionString()
+{
+    var scope = app.Services
+        .GetRequiredService<IServiceScopeFactory>().CreateScope();
+
+    MigrationDb.Migrate(
+        configuration.ConnectionString(),
+        scope.ServiceProvider
     );
+}

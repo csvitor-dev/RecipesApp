@@ -1,18 +1,22 @@
 ﻿using Dapper;
+using FluentMigrator.Runner;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace RecipesApp.Infra.Data.Migrations;
 
-public static class MigrationDB
+public static class MigrationDb
 {
-    public static void Migrate(string connection)
+    public static void Migrate(string connection, IServiceProvider serviceProvider)
     {
         SqlConnectionStringBuilder builder = new(connection);
-        string name = builder.InitialCatalog;
+        var name = builder.InitialCatalog;
         builder.Remove("Database");
 
         EnsureDatabaseCreated(builder.ConnectionString, name);
+        RunService(serviceProvider);
     }
+    
     private static void EnsureDatabaseCreated(string connection, string dbName)
     {
         using SqlConnection db = new(connection);
@@ -24,5 +28,13 @@ public static class MigrationDB
 
         if (records.Any() == false)
             db.Execute($"CREATE DATABASE {dbName}");
+    }
+
+    private static void RunService(IServiceProvider provider)
+    {
+        var runner = provider.GetRequiredService<IMigrationRunner>();
+        
+        runner.ListMigrations();
+        runner.MigrateUp();
     }
 }
