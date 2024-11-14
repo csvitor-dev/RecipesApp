@@ -4,9 +4,9 @@ using RecipesApp.Exception.Resources;
 
 namespace RecipesApp.Application.UseCases.User.Register;
 
-internal class RegisterUserValidator : AbstractValidator<RegisterUserRequestJSON>
+public class RegisterUserValidator : AbstractValidator<RegisterUserRequestJSON>
 {
-    internal RegisterUserValidator()
+    public RegisterUserValidator()
     {
         RuleFor((u) => u.Name).NotNull().NotEmpty()
             .WithMessage(ResourcesAccessor.NAME_REQUIRED);
