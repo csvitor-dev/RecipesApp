@@ -53,4 +53,15 @@ public class RegisterUserValidatorTest : IDisposable
         result.Errors.Should().ContainSingle()
             .And.Contain(e => e.ErrorMessage.Equals(ResourcesAccessor.EMAIL_INVALID));
     }
+
+    [Fact]
+    public void Test_OnFailureWith_EmptyPassword()
+    {
+        var request = RegisterUserRequestJSONMockFactory.CreateMockWithoutPassword();
+        var result = _validator.Validate(request);
+
+        result.IsValid.Should().BeFalse();
+        result.Errors.Should().ContainSingle()
+            .And.Contain(e => e.ErrorMessage.Equals(ResourcesAccessor.PASSWORD_REQUIRED));
+    }
 }
