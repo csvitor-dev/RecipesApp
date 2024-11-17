@@ -5,7 +5,7 @@ namespace CommonTestUtilities.Requests;
 
 public static class RegisterUserRequestJSONMockFactory
 {
-    public static RegisterUserRequestJSON CreateMock()
+    public static RegisterUserRequestJSON CreateMock(int length = 10)
         => new Faker<RegisterUserRequestJSON>()
             .CustomInstantiator(f =>
             {
@@ -14,7 +14,7 @@ public static class RegisterUserRequestJSONMockFactory
                 return new RegisterUserRequestJSON(
                     name,
                     f.Internet.Email(name),
-                    f.Internet.Password()
+                    f.Internet.Password(length)
                 );
             }).Generate();
 

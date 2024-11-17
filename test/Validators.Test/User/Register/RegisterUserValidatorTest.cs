@@ -42,7 +42,6 @@ public class RegisterUserValidatorTest : IDisposable
         result.Errors.Should().ContainSingle()
             .And.Contain(e => e.ErrorMessage.Equals(ResourcesAccessor.EMAIL_REQUIRED));
     }
-    
     [Fact]
     public void Test_OnFailureWith_InvalidEmail()
     {
@@ -63,5 +62,20 @@ public class RegisterUserValidatorTest : IDisposable
         result.IsValid.Should().BeFalse();
         result.Errors.Should().ContainSingle()
             .And.Contain(e => e.ErrorMessage.Equals(ResourcesAccessor.PASSWORD_REQUIRED));
+    }
+    [Theory]
+    [InlineData(1)]
+    [InlineData(2)]
+    [InlineData(3)]
+    [InlineData(4)]
+    [InlineData(5)]
+    public void Test_OnFailureWith_InvalidPassword(int passwordLength)
+    {
+        var request = RegisterUserRequestJSONMockFactory.CreateMock(passwordLength);
+        var result = _validator.Validate(request);
+
+        result.IsValid.Should().BeFalse();
+        result.Errors.Should().ContainSingle()
+            .And.Contain(e => e.ErrorMessage.Equals(ResourcesAccessor.PASSWORD_LENGTH));
     }
 }
