@@ -5,18 +5,14 @@ using RecipesApp.Exception.Resources;
 
 namespace Validators.Test.User.Register;
 
-public class RegisterUserValidatorTest : IDisposable
+public class RegisterUserValidatorTest
 {
-    private readonly RegisterUserValidator _validator = new();
-
-    public void Dispose()
-        => GC.SuppressFinalize(this);
-
     [Fact]
     public void Test_OnSuccess()
     {
+        var v = new RegisterUserValidator();
         var request = RegisterUserRequestJSONMockFactory.CreateMock();
-        var result = _validator.Validate(request);
+        var result = v.Validate(request);
 
         result.IsValid.Should().BeTrue();
     }
@@ -24,8 +20,9 @@ public class RegisterUserValidatorTest : IDisposable
     [Fact]
     public void Test_OnFailureWith_EmptyName()
     {
+        var v = new RegisterUserValidator();
         var request = RegisterUserRequestJSONMockFactory.CreateMockWithoutName();
-        var result = _validator.Validate(request);
+        var result = v.Validate(request);
 
         result.IsValid.Should().BeFalse();
         result.Errors.Should().ContainSingle()
@@ -35,8 +32,9 @@ public class RegisterUserValidatorTest : IDisposable
     [Fact]
     public void Test_OnFailureWith_EmptyEmail()
     {
+        var v = new RegisterUserValidator();
         var request = RegisterUserRequestJSONMockFactory.CreateMockWithoutEmail();
-        var result = _validator.Validate(request);
+        var result = v.Validate(request);
 
         result.IsValid.Should().BeFalse();
         result.Errors.Should().ContainSingle()
@@ -45,8 +43,9 @@ public class RegisterUserValidatorTest : IDisposable
     [Fact]
     public void Test_OnFailureWith_InvalidEmail()
     {
+        var v = new RegisterUserValidator();
         var request = RegisterUserRequestJSONMockFactory.CreateMockWithInvalidEmail("email.com");
-        var result = _validator.Validate(request);
+        var result = v.Validate(request);
 
         result.IsValid.Should().BeFalse();
         result.Errors.Should().ContainSingle()
@@ -56,8 +55,9 @@ public class RegisterUserValidatorTest : IDisposable
     [Fact]
     public void Test_OnFailureWith_EmptyPassword()
     {
+        var v = new RegisterUserValidator();
         var request = RegisterUserRequestJSONMockFactory.CreateMockWithoutPassword();
-        var result = _validator.Validate(request);
+        var result = v.Validate(request);
 
         result.IsValid.Should().BeFalse();
         result.Errors.Should().ContainSingle()
@@ -71,8 +71,9 @@ public class RegisterUserValidatorTest : IDisposable
     [InlineData(5)]
     public void Test_OnFailureWith_InvalidPassword(int passwordLength)
     {
+        var v = new RegisterUserValidator();
         var request = RegisterUserRequestJSONMockFactory.CreateMock(passwordLength);
-        var result = _validator.Validate(request);
+        var result = v.Validate(request);
 
         result.IsValid.Should().BeFalse();
         result.Errors.Should().ContainSingle()
