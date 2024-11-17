@@ -16,11 +16,15 @@ public class RegisterUserValidator : AbstractValidator<RegisterUserRequestJSON>
 
         When(u => !string.IsNullOrWhiteSpace(u.Email), ()
             => RuleFor((u) => u.Email).EmailAddress()
-                .WithMessage(ResourcesAccessor.EMAIL_INVALID));
+                .WithMessage(ResourcesAccessor.EMAIL_INVALID)
+        );
 
         RuleFor(u => u.Password).NotNull().NotEmpty()
             .WithMessage(ResourcesAccessor.PASSWORD_REQUIRED);
-        RuleFor((u) => u.Password.Length).GreaterThanOrEqualTo(6)
-            .WithMessage(ResourcesAccessor.PASSWORD_LENGTH);
+
+        When(u => !string.IsNullOrWhiteSpace(u.Password), ()
+            => RuleFor((u) => u.Password.Length).GreaterThanOrEqualTo(6)
+                .WithMessage(ResourcesAccessor.PASSWORD_LENGTH)
+        );
     }
 }
