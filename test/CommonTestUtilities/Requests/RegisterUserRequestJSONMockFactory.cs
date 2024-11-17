@@ -31,4 +31,12 @@ public static class RegisterUserRequestJSONMockFactory
                 Name: f.Person.FirstName,
                 Password: f.Internet.Password()
             )).Generate();
+
+    public static RegisterUserRequestJSON CreateMockWithInvalidEmail(string? email = null)
+        => new Faker<RegisterUserRequestJSON>()
+            .CustomInstantiator(f => new RegisterUserRequestJSON(
+                Name: f.Person.FirstName,
+                Email: email ?? f.Internet.ExampleEmail(),
+                Password: f.Internet.Password()
+            )).Generate();
 }

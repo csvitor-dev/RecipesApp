@@ -22,7 +22,7 @@ public class RegisterUserValidatorTest : IDisposable
     }
 
     [Fact]
-    public void Test_OnFailureWithEmptyName()
+    public void Test_OnFailureWith_EmptyName()
     {
         var request = RegisterUserRequestJSONMockFactory.CreateMockWithoutName();
         var result = _validator.Validate(request);
@@ -33,7 +33,7 @@ public class RegisterUserValidatorTest : IDisposable
     }
 
     [Fact]
-    public void Test_OnFailureWithEmptyEmail()
+    public void Test_OnFailureWith_EmptyEmail()
     {
         var request = RegisterUserRequestJSONMockFactory.CreateMockWithoutEmail();
         var result = _validator.Validate(request);
@@ -41,5 +41,16 @@ public class RegisterUserValidatorTest : IDisposable
         result.IsValid.Should().BeFalse();
         result.Errors.Should().ContainSingle()
             .And.Contain(e => e.ErrorMessage.Equals(ResourcesAccessor.EMAIL_REQUIRED));
+    }
+    
+    [Fact]
+    public void Test_OnFailureWith_InvalidEmail()
+    {
+        var request = RegisterUserRequestJSONMockFactory.CreateMockWithInvalidEmail("email.com");
+        var result = _validator.Validate(request);
+
+        result.IsValid.Should().BeFalse();
+        result.Errors.Should().ContainSingle()
+            .And.Contain(e => e.ErrorMessage.Equals(ResourcesAccessor.EMAIL_INVALID));
     }
 }
