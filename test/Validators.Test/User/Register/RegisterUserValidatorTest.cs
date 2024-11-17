@@ -15,7 +15,7 @@ public class RegisterUserValidatorTest : IDisposable
     [Fact]
     public void Test_OnSuccess()
     {
-        var request = BuilderRegisterUserRequestJSON.CreateMock();
+        var request = RegisterUserRequestJSONMockFactory.CreateMock();
         var result = _validator.Validate(request);
 
         result.IsValid.Should().BeTrue();
@@ -24,7 +24,7 @@ public class RegisterUserValidatorTest : IDisposable
     [Fact]
     public void Test_OnFailureWithEmptyName()
     {
-        var request = BuilderRegisterUserRequestJSON.CreateMockWithoutName();
+        var request = RegisterUserRequestJSONMockFactory.CreateMockWithoutName();
         var result = _validator.Validate(request);
 
         result.IsValid.Should().BeFalse();
@@ -35,7 +35,7 @@ public class RegisterUserValidatorTest : IDisposable
     [Fact]
     public void Test_OnFailureWithEmptyEmail()
     {
-        var request = BuilderRegisterUserRequestJSON.CreateMockWithoutEmail();
+        var request = RegisterUserRequestJSONMockFactory.CreateMockWithoutEmail();
         var result = _validator.Validate(request);
 
         result.IsValid.Should().BeFalse();

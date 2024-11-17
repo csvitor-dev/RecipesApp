@@ -3,7 +3,7 @@ using RecipesApp.Communication.Requests;
 
 namespace CommonTestUtilities.Requests;
 
-public static class BuilderRegisterUserRequestJSON
+public static class RegisterUserRequestJSONMockFactory
 {
     public static RegisterUserRequestJSON CreateMock()
         => new Faker<RegisterUserRequestJSON>()

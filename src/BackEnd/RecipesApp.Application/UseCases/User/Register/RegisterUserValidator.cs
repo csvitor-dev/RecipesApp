@@ -13,8 +13,10 @@ public class RegisterUserValidator : AbstractValidator<RegisterUserRequestJSON>
 
         RuleFor((u) => u.Email).NotNull().NotEmpty()
             .WithMessage(ResourcesAccessor.EMAIL_REQUIRED);
-        RuleFor((u) => u.Email).EmailAddress()
-            .WithMessage(ResourcesAccessor.EMAIL_INVALID);
+
+        When(u => !string.IsNullOrWhiteSpace(u.Email), ()
+            => RuleFor((u) => u.Email).EmailAddress()
+                .WithMessage(ResourcesAccessor.EMAIL_INVALID));
 
         RuleFor(u => u.Password).NotNull().NotEmpty()
             .WithMessage(ResourcesAccessor.PASSWORD_REQUIRED);
