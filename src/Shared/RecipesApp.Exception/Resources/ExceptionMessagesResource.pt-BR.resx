@@ -127,7 +127,7 @@
     <value>O campo Password é obrigatório</value>
   </data>
   <data name="EMAIL_INVALID" xml:space="preserve">
-    <value>O Email não é inválido</value>
+    <value>O Email não é válido</value>
   </data>
   <data name="PASSWORD_LENGTH" xml:space="preserve">
     <value>A senha deve conter pelo menos 6 caracteres </value>

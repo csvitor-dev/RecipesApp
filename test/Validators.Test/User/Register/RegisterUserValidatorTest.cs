@@ -11,7 +11,7 @@ public class RegisterUserValidatorTest : IDisposable
 
     public void Dispose()
         => GC.SuppressFinalize(this);
-    
+
     [Fact]
     public void Test_OnSuccess()
     {
@@ -24,12 +24,22 @@ public class RegisterUserValidatorTest : IDisposable
     [Fact]
     public void Test_OnFailureWithEmptyName()
     {
-        var request = BuilderRegisterUserRequestJSON.CreateMockWithOutName();
-        
-        var result = _validator.Validate(request!);
-        
+        var request = BuilderRegisterUserRequestJSON.CreateMockWithoutName();
+        var result = _validator.Validate(request);
+
         result.IsValid.Should().BeFalse();
         result.Errors.Should().ContainSingle()
             .And.Contain(e => e.ErrorMessage.Equals(ResourcesAccessor.NAME_REQUIRED));
+    }
+
+    [Fact]
+    public void Test_OnFailureWithEmptyEmail()
+    {
+        var request = BuilderRegisterUserRequestJSON.CreateMockWithoutEmail();
+        var result = _validator.Validate(request);
+
+        result.IsValid.Should().BeFalse();
+        result.Errors.Should().ContainSingle()
+            .And.Contain(e => e.ErrorMessage.Equals(ResourcesAccessor.EMAIL_REQUIRED));
     }
 }

@@ -18,10 +18,17 @@ public static class BuilderRegisterUserRequestJSON
                 );
             }).Generate();
 
-    public static RegisterUserRequestJSON CreateMockWithOutName()
+    public static RegisterUserRequestJSON CreateMockWithoutName()
         => new Faker<RegisterUserRequestJSON>()
             .CustomInstantiator(f => new RegisterUserRequestJSON(
                 Email: f.Internet.Email(),
+                Password: f.Internet.Password()
+            )).Generate();
+
+    public static RegisterUserRequestJSON CreateMockWithoutEmail()
+        => new Faker<RegisterUserRequestJSON>()
+            .CustomInstantiator(f => new RegisterUserRequestJSON(
+                Name: f.Person.FirstName,
                 Password: f.Internet.Password()
             )).Generate();
 }
