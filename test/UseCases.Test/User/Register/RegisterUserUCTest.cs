@@ -12,7 +12,12 @@ public class RegisterUserUCTest
     public async Task Test_OnSuccess()
     {
         var request = RegisterUserRequestJSONMockFactory.CreateMock();
-        var uc = new RegisterUserUC();
+        var w = UserWriteOnlyRepositoryMockFactory.CreateMock();
+        var r = UserReadOnlyRepositoryMockFactory.CreateMock();
+        var uw = UnitOfWorkMockFactory.CreateMock();
+        var map = MapperMockFactory.CreateMock();
+        var pw = EncryptMockFactory.CreateMock();
+        var uc = new RegisterUserUC(r, w, uw, map, pw);
 
         var result = await uc.Execute(request);
 
