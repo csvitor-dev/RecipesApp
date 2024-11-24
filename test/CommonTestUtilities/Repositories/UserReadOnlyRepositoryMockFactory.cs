@@ -5,6 +5,8 @@ namespace CommonTestUtilities.Repositories;
 
 public class UserReadOnlyRepositoryMockFactory
 {
-    public static IUserReadOnlyRepository CreateMock()
-        => new Mock<IUserReadOnlyRepository>().Object;
+    private readonly Mock<IUserReadOnlyRepository> _repository = new();
+    
+    public IUserReadOnlyRepository CreateMock()
+        => _repository.Object;
 }
