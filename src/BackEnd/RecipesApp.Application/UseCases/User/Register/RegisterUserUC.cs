@@ -17,30 +17,25 @@ public class RegisterUserUC(
     PasswordEncryptionService service
 ) : IRegisterUserUC
 {
-    private readonly IUserReadOnlyRepository _readRepo = readRepo;
-    private readonly IUserWriteOnlyRepository _writeRepo = writeRepo;
-    private readonly IUnitOfWork _uw = uw;
-    private readonly IMapper _map = map;
-    private readonly PasswordEncryptionService _service = service;
-
     public async Task<RegisterUserResponseJSON> Execute(RegisterUserRequestJSON request)
     {
-        await Validate(request);
+        await ValidateAsync(request);
 
-        var user = _map.Map<Domain.Entities.User>(request);
-        user.Password = _service.Encrypt(request.Password);
+        var user = map.Map<Domain.Entities.User>(request);
+        user.Password = service.Encrypt(request.Password);
 
-        await _writeRepo.AddUserAsync(user);
-       
-        await _uw.CommitAsync();
+        await writeRepo.AddUserAsync(user);
 
-        return new(request.Name);
+        await uw.CommitAsync();
+
+        return new RegisterUserResponseJSON(user.Name);
     }
-    private async Task Validate(RegisterUserRequestJSON request)
-    {
-        var result = new RegisterUserValidator().Validate(request);
 
-        var emailExists = await _readRepo.ExistsActiveUserWithEmailAsync(request.Email);
+    private async Task ValidateAsync(RegisterUserRequestJSON request)
+    {
+        var result = await new RegisterUserValidator().ValidateAsync(request);
+
+        var emailExists = await readRepo.ExistsActiveUserWithEmailAsync(request.Email);
 
         if (emailExists)
             result.Errors.Add(new(string.Empty,
