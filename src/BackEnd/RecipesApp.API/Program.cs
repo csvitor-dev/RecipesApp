@@ -50,3 +50,5 @@ void MigrateDb(IConfiguration configuration)
         scope.ServiceProvider
     );
 }
+
+public partial class Program;
