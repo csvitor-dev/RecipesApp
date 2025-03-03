@@ -14,6 +14,4 @@ services:
     restart: unless-stopped
 
 volumes:
-  mysql_data:
-  postgres_data:
   mssql_data:
