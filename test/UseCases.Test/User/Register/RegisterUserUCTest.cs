@@ -1,7 +1,6 @@
 using CommonTestUtilities.Repositories;
 using CommonTestUtilities.Requests;
 using CommonTestUtilities.Services;
-using FluentAssertions;
 using RecipesApp.Application.UseCases.User.Register;
 using RecipesApp.Exception.Project;
 using RecipesApp.Exception.Resources;
@@ -32,8 +31,8 @@ public class RegisterUserUCTest
 
         var result = await uc.Execute(request);
 
-        result.Should().NotBeNull();
-        result.Name.Should().Be(request.Name);
+        Assert.NotNull(result);
+        Assert.Equal(request.Name, result.Name);
     }
 
     [Fact]
@@ -42,10 +41,12 @@ public class RegisterUserUCTest
         var request = RegisterUserRequestJSONMockFactory.CreateMock();
         var uc = CreateUseCase(request.Email);
 
-        Func<Task> act = async () => await uc.Execute(request);
+        var exception = await Assert.ThrowsAsync<ErrorOnValidationException>(Act);
+        Assert.True(exception.ErrorMessages.Count == 1);
+        Assert.True(exception.ErrorMessages
+                .Contains(ResourcesAccessor.EMAIL_ALREADY_REGISTERED));
+        return;
 
-        (await act.Should().ThrowAsync<ErrorOnValidationException>())
-            .Where(e => e.ErrorMessages.Count == 1
-                        && e.ErrorMessages.Contains(ResourcesAccessor.EMAIL_ALREADY_REGISTERED));
+        async Task Act() => await uc.Execute(request);
     }
 }
