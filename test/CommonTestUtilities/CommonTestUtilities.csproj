@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\BackEnd\RecipesApp.API\RecipesApp.API.csproj" />
     <ProjectReference Include="..\..\src\BackEnd\RecipesApp.Application\RecipesApp.Application.csproj" />
     <ProjectReference Include="..\..\src\Shared\RecipesApp.Communication\RecipesApp.Communication.csproj" />
   </ItemGroup>
@@ -14,6 +15,8 @@
   <ItemGroup>
     <PackageReference Include="Bogus" Version="35.6.1" />
     <PackageReference Include="Moq" Version="4.20.72" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.11" />
   </ItemGroup>
 
 </Project>
