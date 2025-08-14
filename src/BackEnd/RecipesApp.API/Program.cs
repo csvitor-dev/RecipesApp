@@ -42,6 +42,9 @@ app.Run();
 
 void MigrateDb(IConfiguration configuration)
 {
+    if (configuration.IsTesting())
+        return;
+
     var scope = app.Services
         .GetRequiredService<IServiceScopeFactory>().CreateScope();
 
