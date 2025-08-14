@@ -2,12 +2,12 @@ using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
 using CommonTestUtilities.Requests;
-using Microsoft.AspNetCore.Mvc.Testing;
+using CommonTestUtilities.Services;
 
 namespace API.Test.User.Register;
 
-public class RegisterUserEndpoint(WebApplicationFactory<Program> factory)
-    : IClassFixture<WebApplicationFactory<Program>>
+public class RegisterUserEndpoint(WebApplicationMockFactory factory)
+    : IClassFixture<WebApplicationMockFactory>
 {
     private readonly HttpClient _client = factory.CreateClient();
     

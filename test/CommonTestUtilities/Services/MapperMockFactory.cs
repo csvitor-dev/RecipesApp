@@ -3,7 +3,7 @@ using RecipesApp.Application.Services;
 
 namespace CommonTestUtilities.Services;
 
-public class MapperMockFactory
+public static class MapperMockFactory
 {
     public static IMapper CreateMock()
     {
