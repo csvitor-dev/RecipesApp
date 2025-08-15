@@ -1,5 +1,4 @@
 using CommonTestUtilities.Requests;
-using FluentAssertions;
 using RecipesApp.Application.UseCases.User.Register;
 using RecipesApp.Exception.Resources;
 
@@ -14,7 +13,7 @@ public class RegisterUserValidatorTest
         var request = RegisterUserRequestJSONMockFactory.CreateMock();
         var result = v.Validate(request);
 
-        result.IsValid.Should().BeTrue();
+        Assert.True(result.IsValid);
     }
 
     [Fact]
@@ -24,9 +23,9 @@ public class RegisterUserValidatorTest
         var request = RegisterUserRequestJSONMockFactory.CreateMockWithoutName();
         var result = v.Validate(request);
 
-        result.IsValid.Should().BeFalse();
-        result.Errors.Should().ContainSingle()
-            .And.Contain(e => e.ErrorMessage.Equals(ResourcesAccessor.NAME_REQUIRED));
+        Assert.False(result.IsValid);
+        Assert.Single(result.Errors,
+            error => error.ErrorMessage.Equals(ResourcesAccessor.NAME_REQUIRED));
     }
 
     [Fact]
@@ -36,10 +35,11 @@ public class RegisterUserValidatorTest
         var request = RegisterUserRequestJSONMockFactory.CreateMockWithoutEmail();
         var result = v.Validate(request);
 
-        result.IsValid.Should().BeFalse();
-        result.Errors.Should().ContainSingle()
-            .And.Contain(e => e.ErrorMessage.Equals(ResourcesAccessor.EMAIL_REQUIRED));
+        Assert.False(result.IsValid);
+        Assert.Single(result.Errors,
+            error => error.ErrorMessage.Equals(ResourcesAccessor.EMAIL_REQUIRED));
     }
+
     [Fact]
     public void Test_OnFailureWith_InvalidEmail()
     {
@@ -47,9 +47,9 @@ public class RegisterUserValidatorTest
         var request = RegisterUserRequestJSONMockFactory.CreateMockWithInvalidEmail("email.com");
         var result = v.Validate(request);
 
-        result.IsValid.Should().BeFalse();
-        result.Errors.Should().ContainSingle()
-            .And.Contain(e => e.ErrorMessage.Equals(ResourcesAccessor.EMAIL_INVALID));
+        Assert.False(result.IsValid);
+        Assert.Single(result.Errors,
+            error => error.ErrorMessage.Equals(ResourcesAccessor.EMAIL_INVALID));
     }
 
     [Fact]
@@ -59,10 +59,11 @@ public class RegisterUserValidatorTest
         var request = RegisterUserRequestJSONMockFactory.CreateMockWithoutPassword();
         var result = v.Validate(request);
 
-        result.IsValid.Should().BeFalse();
-        result.Errors.Should().ContainSingle()
-            .And.Contain(e => e.ErrorMessage.Equals(ResourcesAccessor.PASSWORD_REQUIRED));
+        Assert.False(result.IsValid);
+        Assert.Single(result.Errors, 
+            error=> error.ErrorMessage.Equals(ResourcesAccessor.PASSWORD_REQUIRED));
     }
+
     [Theory]
     [InlineData(1)]
     [InlineData(2)]
@@ -75,8 +76,8 @@ public class RegisterUserValidatorTest
         var request = RegisterUserRequestJSONMockFactory.CreateMock(passwordLength);
         var result = v.Validate(request);
 
-        result.IsValid.Should().BeFalse();
-        result.Errors.Should().ContainSingle()
-            .And.Contain(e => e.ErrorMessage.Equals(ResourcesAccessor.PASSWORD_LENGTH));
+        Assert.False(result.IsValid);
+        Assert.Single(result.Errors, 
+            error=> error.ErrorMessage.Equals(ResourcesAccessor.PASSWORD_LENGTH));
     }
 }

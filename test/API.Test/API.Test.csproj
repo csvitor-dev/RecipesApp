@@ -21,7 +21,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\BackEnd\RecipesApp.Application\RecipesApp.Application.csproj" />
       <ProjectReference Include="..\CommonTestUtilities\CommonTestUtilities.csproj" />
     </ItemGroup>
 

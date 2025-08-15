@@ -14,10 +14,13 @@ public static class InfrastructureDIExtension
 {
     public static void AddInfra(this IServiceCollection self, IConfiguration configuration)
     {
-        AddDbContext(self,
-            configuration.ConnectionString());
-        AddFluentMigrator(self, configuration.ConnectionString());
         AddRepositories(self);
+
+        if (configuration.IsTesting())
+            return;
+
+        AddDbContext(self, configuration.ConnectionString());
+        AddFluentMigrator(self, configuration.ConnectionString());
     }
 
     private static void AddDbContext(IServiceCollection services, string? connection)
