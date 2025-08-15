@@ -11,13 +11,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\Shared\RecipesApp.Communication\RecipesApp.Communication.csproj" />
     <ProjectReference Include="..\..\Shared\RecipesApp.Exception\RecipesApp.Exception.csproj" />
     <ProjectReference Include="..\RecipesApp.Application\RecipesApp.Application.csproj" />
+    <ProjectReference Include="..\RecipesApp.Infra\RecipesApp.Infra.csproj" />
   </ItemGroup>
 
 </Project>
