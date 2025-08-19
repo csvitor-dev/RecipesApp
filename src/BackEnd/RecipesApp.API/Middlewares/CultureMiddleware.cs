@@ -8,7 +8,7 @@ public class CultureMiddleware(RequestDelegate next)
 
     public async Task Invoke(HttpContext context)
     {
-        string? requestedCulture = context.Request
+        var requestedCulture = context.Request
             .Headers.AcceptLanguage.FirstOrDefault();
         requestedCulture = ValidStringCulture(requestedCulture);
 
@@ -19,11 +19,14 @@ public class CultureMiddleware(RequestDelegate next)
 
         await _next(context);
     }
+
     private string ValidStringCulture(string? culture)
     {
-        var cultures = CultureInfo.GetCultures(CultureTypes.AllCultures);
-        bool isValid = !string.IsNullOrWhiteSpace(culture) && cultures.Any((c) => c.Name.Equals(culture));
+        var cultures = CultureInfo.GetCultures(CultureTypes.AllCultures).ToList();
 
-        return isValid ? culture! : "en";
+        return string.IsNullOrWhiteSpace(culture) is false &&
+               cultures.Exists(c => c.Name.Equals(culture))
+            ? culture
+            : "en";
     }
 }

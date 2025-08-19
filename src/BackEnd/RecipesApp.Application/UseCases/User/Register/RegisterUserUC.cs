@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation.Results;
 using RecipesApp.Application.Services;
 using RecipesApp.Communication.Requests;
 using RecipesApp.Communication.Responses;
@@ -38,7 +39,7 @@ public class RegisterUserUC(
         var emailExists = await readRepo.ExistsActiveUserWithEmailAsync(request.Email);
 
         if (emailExists)
-            result.Errors.Add(new(string.Empty,
+            result.Errors.Add(new ValidationFailure(string.Empty,
                 ResourcesAccessor.EMAIL_ALREADY_REGISTERED));
 
         if (result.IsValid)
