@@ -13,8 +13,15 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddMvc(
-    (opt) => opt.Filters.Add(typeof(ExceptionFilter))
+    opt => opt.Filters.Add(typeof(ExceptionFilter))
 );
+
+builder.Services.AddRouting(
+    opt =>
+    {
+        opt.LowercaseUrls = true;
+        opt.LowercaseQueryStrings = true;
+    });
 
 builder.Services.AddApplication(builder.Configuration);
 builder.Services.AddInfra(builder.Configuration);
