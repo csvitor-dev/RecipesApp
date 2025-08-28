@@ -17,10 +17,9 @@ public class RegisterUserUCTest
             factory.ExistActiveUserWithEmail(email);
         var w = UserWriteOnlyRepositoryMockFactory.CreateMock();
         var uw = UnitOfWorkMockFactory.CreateMock();
-        var map = MapperMockFactory.CreateMock();
         var pw = EncryptMockFactory.CreateMock();
 
-        return new RegisterUserUC(factory.CreateMock(), w, uw, map, pw);
+        return new RegisterUserUC(factory.CreateMock(), w, uw, pw);
     }
 
     [Fact]
