@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RecipesApp.Application.Services;
 using RecipesApp.Application.UseCases.User.Register;
@@ -17,12 +16,7 @@ public static class ApplicationDIExtension
 
     private static void AddServices(IServiceCollection services, string? key)
     {
-        services.AddScoped((service) =>
-            new MapperConfiguration((opt) =>
-            {
-                opt.AddProfile(new AutoMappingService());
-            }).CreateMapper()
-        );
+        MappingService.Configure();
         services.AddScoped((service) =>
             new PasswordEncryptionService(key ?? string.Empty)
         );

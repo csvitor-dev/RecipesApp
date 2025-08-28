@@ -1,5 +1,5 @@
-﻿using AutoMapper;
-using FluentValidation.Results;
+﻿using FluentValidation.Results;
+using Mapster;
 using RecipesApp.Application.Services;
 using RecipesApp.Communication.Requests;
 using RecipesApp.Communication.Responses;
@@ -14,7 +14,6 @@ public class RegisterUserUC(
     IUserReadOnlyRepository readRepo,
     IUserWriteOnlyRepository writeRepo,
     IUnitOfWork uw,
-    IMapper map,
     PasswordEncryptionService service
 ) : IRegisterUserUC
 {
@@ -22,7 +21,7 @@ public class RegisterUserUC(
     {
         await ValidateAsync(request);
 
-        var user = map.Map<Domain.Entities.User>(request);
+        var user = request.Adapt<Domain.Entities.User>();
         user.Password = service.Encrypt(request.Password);
 
         await writeRepo.AddUserAsync(user);
