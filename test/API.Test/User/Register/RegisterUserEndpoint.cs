@@ -11,7 +11,7 @@ namespace API.Test.User.Register;
 public class RegisterUserEndpoint(WebApplicationMockFactory factory)
     : IClassFixture<WebApplicationMockFactory>
 {
-    private readonly string _method = "/users";
+    private const string Method = "/users";
     private readonly HttpClient _client = factory.CreateClient();
 
     [Fact]
@@ -19,7 +19,7 @@ public class RegisterUserEndpoint(WebApplicationMockFactory factory)
     {
         var request = RegisterUserRequestJSONMockFactory.CreateMock();
 
-        var response = await _client.PostAsJsonAsync(_method, request);
+        var response = await _client.PostAsJsonAsync(Method, request);
         await using var body = await response.Content.ReadAsStreamAsync();
         var result = await JsonDocument.ParseAsync(body);
         var username = result.RootElement.GetProperty("name").GetString();
@@ -36,9 +36,9 @@ public class RegisterUserEndpoint(WebApplicationMockFactory factory)
         _client.DefaultRequestHeaders.TryAddWithoutValidation("Accept-Language", culture);
         var request = RegisterUserRequestJSONMockFactory.CreateMockWithoutName();
 
-        var response = await _client.PostAsJsonAsync(_method, request);
+        var response = await _client.PostAsJsonAsync(Method, request);
         await using var body = await response.Content.ReadAsStreamAsync();
-        var result = await JsonDocument.ParseAsync(body);
+        var result = await JsonDocument.ParseAsync(body);   
         var errors = result.RootElement.GetProperty("errors")
             .EnumerateArray().ToList();
 
@@ -56,7 +56,7 @@ public class RegisterUserEndpoint(WebApplicationMockFactory factory)
         _client.DefaultRequestHeaders.TryAddWithoutValidation("Accept-Language", culture);
         var request = RegisterUserRequestJSONMockFactory.CreateMockWithoutEmail();
 
-        var response = await _client.PostAsJsonAsync(_method, request);
+        var response = await _client.PostAsJsonAsync(Method, request);
         await using var body = await response.Content.ReadAsStreamAsync();
         var result = await JsonDocument.ParseAsync(body);
         var errors = result.RootElement.GetProperty("errors")
@@ -76,7 +76,7 @@ public class RegisterUserEndpoint(WebApplicationMockFactory factory)
         _client.DefaultRequestHeaders.TryAddWithoutValidation("Accept-Language", culture);
         var request = RegisterUserRequestJSONMockFactory.CreateMockWithInvalidEmail("email.com");
 
-        var response = await _client.PostAsJsonAsync(_method, request);
+        var response = await _client.PostAsJsonAsync(Method, request);
         await using var body = await response.Content.ReadAsStreamAsync();
         var result = await JsonDocument.ParseAsync(body);
         var errors = result.RootElement.GetProperty("errors")
@@ -96,7 +96,7 @@ public class RegisterUserEndpoint(WebApplicationMockFactory factory)
         _client.DefaultRequestHeaders.TryAddWithoutValidation("Accept-Language", culture);
         var request = RegisterUserRequestJSONMockFactory.CreateMockWithoutPassword();
 
-        var response = await _client.PostAsJsonAsync(_method, request);
+        var response = await _client.PostAsJsonAsync(Method, request);
         await using var body = await response.Content.ReadAsStreamAsync();
         var result = await JsonDocument.ParseAsync(body);
         var errors = result.RootElement.GetProperty("errors")

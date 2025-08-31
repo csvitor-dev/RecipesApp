@@ -6,10 +6,7 @@ public record ErrorListResponseJSON
 
     public ErrorListResponseJSON(IList<string> errors)
         => Errors = errors;
+
     public ErrorListResponseJSON(params string[] messages)
-        : this(new List<string>())
-    {
-        foreach (string error in messages)
-            Errors.Add(error);
-    }
+        => Errors = messages;
 }

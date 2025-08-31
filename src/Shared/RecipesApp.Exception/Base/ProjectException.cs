@@ -1,5 +1,9 @@
-﻿namespace RecipesApp.Exception.Base;
+﻿using System.Net;
 
-public class ProjectException : ApplicationException
+namespace RecipesApp.Exception.Base;
+
+public abstract class ProjectException : ApplicationException
 {
+    public abstract HttpStatusCode StatusCode { get; }
+    public abstract IList<string> Payload { get; }
 }
