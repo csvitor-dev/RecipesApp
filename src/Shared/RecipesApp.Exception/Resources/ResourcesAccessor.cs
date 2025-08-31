@@ -10,6 +10,11 @@ public static class ResourcesAccessor
             => ExceptionMessagesResource.EMAIL_ALREADY_REGISTERED;
     }
 
+    public static string EMAIL_OR_PASSWORD_INVALID
+    {
+        get => ExceptionMessagesResource.EMAIL_OR_PASSWORD_INVALID;
+    }
+
     public static string EMAIL_INVALID
     {
         get
