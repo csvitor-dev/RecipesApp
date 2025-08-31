@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RecipesApp.Application.Services;
+using RecipesApp.Application.UseCases.User.Login.DoLogin;
 using RecipesApp.Application.UseCases.User.Register;
 
 namespace RecipesApp.Application;
@@ -17,7 +18,7 @@ public static class ApplicationDIExtension
     private static void AddServices(IServiceCollection services, string? key)
     {
         MappingService.Configure();
-        services.AddScoped((service) =>
+        services.AddScoped(_ =>
             new PasswordEncryptionService(key ?? string.Empty)
         );
     }
@@ -25,5 +26,6 @@ public static class ApplicationDIExtension
     private static void AddUseCases(IServiceCollection services)
     {
         services.AddScoped<IRegisterUserUC, RegisterUserUC>();
+        services.AddScoped<IDoLoginUC, DoLoginUC>();
     }
 }
