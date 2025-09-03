@@ -5,50 +5,15 @@ namespace CommonTestUtilities.Requests;
 
 public static class RegisterUserRequestJSONMockFactory
 {
-    public static RegisterUserRequestJSON CreateMock(int length = 10)
+    public static RegisterUserRequestJSON CreateMock(int length = 10, string? invalidEmail = null)
         => new Faker<RegisterUserRequestJSON>()
-            .CustomInstantiator(f =>
-            {
-                var name = f.Person.FirstName;
-
-                return new RegisterUserRequestJSON(
-                    name,
-                    f.Internet.Email(name),
-                    f.Internet.Password(length)
-                );
-            }).Generate();
-
-    public static RegisterUserRequestJSON CreateMockWithoutName()
-        => new Faker<RegisterUserRequestJSON>()
-            .CustomInstantiator(f => new RegisterUserRequestJSON(
-                Email: f.Internet.Email(),
-                Password: f.Internet.Password()
-            )).Generate();
-
-    public static RegisterUserRequestJSON CreateMockWithoutEmail()
-        => new Faker<RegisterUserRequestJSON>()
-            .CustomInstantiator(f => new RegisterUserRequestJSON(
-                Name: f.Person.FirstName,
-                Password: f.Internet.Password()
-            )).Generate();
-
-    public static RegisterUserRequestJSON CreateMockWithInvalidEmail(string? email = null)
-        => new Faker<RegisterUserRequestJSON>()
-            .CustomInstantiator(f => new RegisterUserRequestJSON(
-                Name: f.Person.FirstName,
-                Email: email ?? f.Internet.ExampleEmail(),
-                Password: f.Internet.Password()
-            )).Generate();
-
-    public static RegisterUserRequestJSON CreateMockWithoutPassword()
-        => new Faker<RegisterUserRequestJSON>()
-            .CustomInstantiator(f =>
-            {
-                var name = f.Person.FirstName;
-
-                return new RegisterUserRequestJSON(
-                    Name: name,
-                    Email: f.Internet.Email(name)
-                );
-            }).Generate();
+            .CustomInstantiator(f =>  new RegisterUserRequestJSON())
+            .RuleFor(r => r.Name,
+                f => f.Person.FirstName)
+            .RuleFor(r => r.Email,
+                (f, r) =>
+                    invalidEmail ?? f.Internet.Email(r.Name))
+            .RuleFor(r => r.Password,
+                f => f.Internet.Password(length))
+            .Generate();
 }
