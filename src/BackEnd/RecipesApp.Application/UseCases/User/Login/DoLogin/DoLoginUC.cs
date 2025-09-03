@@ -1,5 +1,6 @@
 using RecipesApp.Application.Services;
 using RecipesApp.Communication.Requests;
+using RecipesApp.Communication.Responses;
 using RecipesApp.Domain.Repositories.User;
 using RecipesApp.Exception.Project;
 
@@ -10,7 +11,7 @@ public class DoLoginUC(
     PasswordEncryptionService service
 ) : IDoLoginUC
 {
-    public async Task<RegisterUserRequestJSON> Execute(LoginUserRequestJSON request)
+    public async Task<RegisterUserResponseJSON> Execute(LoginUserRequestJSON request)
     {
         await ValidateAsync(request);
 
@@ -20,7 +21,7 @@ public class DoLoginUC(
         if (user is null || passwordsNoMatch)
             throw new InvalidLoginException();
 
-        return new RegisterUserRequestJSON(user.Name);
+        return new RegisterUserResponseJSON(user.Name);
     }
 
     private static async Task ValidateAsync(LoginUserRequestJSON request)
