@@ -1,3 +1,4 @@
+using Bogus;
 using CommonTestUtilities.Requests;
 using RecipesApp.Application.UseCases.User.Login.DoLogin;
 using RecipesApp.Exception.Resources;
@@ -21,38 +22,43 @@ public class DoLoginValidatorTest
     public void Test_OnFailureWith_EmptyEmail()
     {
         var v = new DoLoginValidator();
-        var request = LoginUserRequestJSONMockFactory.CreateMockWithoutEmail();
+        var request = LoginUserRequestJSONMockFactory.CreateMock();
+        request.Email = string.Empty;
+
         var result = v.Validate(request);
 
         Assert.False(result.IsValid);
         Assert.Single(result.Errors,
             error => error.ErrorMessage.Equals(ResourcesAccessor.EMAIL_REQUIRED));
     }
-    
+
     [Fact]
     public void Test_OnFailureWith_InvalidEmail()
     {
         var v = new DoLoginValidator();
-        var request = LoginUserRequestJSONMockFactory.CreateMockWithInvalidEmail();
+        var request = LoginUserRequestJSONMockFactory.CreateMock(invalidEmail: "email.com");
+
         var result = v.Validate(request);
 
         Assert.False(result.IsValid);
         Assert.Single(result.Errors,
             error => error.ErrorMessage.Equals(ResourcesAccessor.EMAIL_INVALID));
     }
-    
+
     [Fact]
     public void Test_OnFailureWith_EmptyPassword()
     {
         var v = new DoLoginValidator();
-        var request = LoginUserRequestJSONMockFactory.CreateMockWithoutPassword();
+        var request = LoginUserRequestJSONMockFactory.CreateMock();
+        request.Password = string.Empty;
+
         var result = v.Validate(request);
 
         Assert.False(result.IsValid);
         Assert.Single(result.Errors,
             error => error.ErrorMessage.Equals(ResourcesAccessor.PASSWORD_REQUIRED));
     }
-    
+
     [Theory]
     [InlineData(1)]
     [InlineData(2)]
@@ -63,6 +69,7 @@ public class DoLoginValidatorTest
     {
         var v = new DoLoginValidator();
         var request = LoginUserRequestJSONMockFactory.CreateMock(passwordLength);
+
         var result = v.Validate(request);
 
         Assert.False(result.IsValid);

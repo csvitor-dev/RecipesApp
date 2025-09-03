@@ -11,6 +11,7 @@ public class RegisterUserValidatorTest
     {
         var v = new RegisterUserValidator();
         var request = RegisterUserRequestJSONMockFactory.CreateMock();
+
         var result = v.Validate(request);
 
         Assert.True(result.IsValid);
@@ -20,7 +21,9 @@ public class RegisterUserValidatorTest
     public void Test_OnFailureWith_EmptyName()
     {
         var v = new RegisterUserValidator();
-        var request = RegisterUserRequestJSONMockFactory.CreateMockWithoutName();
+        var request = RegisterUserRequestJSONMockFactory.CreateMock();
+        request.Name = string.Empty;
+
         var result = v.Validate(request);
 
         Assert.False(result.IsValid);
@@ -32,7 +35,9 @@ public class RegisterUserValidatorTest
     public void Test_OnFailureWith_EmptyEmail()
     {
         var v = new RegisterUserValidator();
-        var request = RegisterUserRequestJSONMockFactory.CreateMockWithoutEmail();
+        var request = RegisterUserRequestJSONMockFactory.CreateMock();
+        request.Email = string.Empty;
+
         var result = v.Validate(request);
 
         Assert.False(result.IsValid);
@@ -44,7 +49,8 @@ public class RegisterUserValidatorTest
     public void Test_OnFailureWith_InvalidEmail()
     {
         var v = new RegisterUserValidator();
-        var request = RegisterUserRequestJSONMockFactory.CreateMockWithInvalidEmail("email.com");
+        var request = RegisterUserRequestJSONMockFactory.CreateMock(invalidEmail: "email.com");
+
         var result = v.Validate(request);
 
         Assert.False(result.IsValid);
@@ -56,7 +62,9 @@ public class RegisterUserValidatorTest
     public void Test_OnFailureWith_EmptyPassword()
     {
         var v = new RegisterUserValidator();
-        var request = RegisterUserRequestJSONMockFactory.CreateMockWithoutPassword();
+        var request = RegisterUserRequestJSONMockFactory.CreateMock();
+        request.Password = string.Empty;
+
         var result = v.Validate(request);
 
         Assert.False(result.IsValid);
@@ -74,6 +82,7 @@ public class RegisterUserValidatorTest
     {
         var v = new RegisterUserValidator();
         var request = RegisterUserRequestJSONMockFactory.CreateMock(passwordLength);
+
         var result = v.Validate(request);
 
         Assert.False(result.IsValid);

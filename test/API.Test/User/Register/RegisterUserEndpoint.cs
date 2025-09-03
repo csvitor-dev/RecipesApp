@@ -34,11 +34,12 @@ public class RegisterUserEndpoint(WebApplicationMockFactory factory)
     public async Task Test_EmptyName_OnFailure(string? culture)
     {
         _client.DefaultRequestHeaders.TryAddWithoutValidation("Accept-Language", culture);
-        var request = RegisterUserRequestJSONMockFactory.CreateMockWithoutName();
+        var request = RegisterUserRequestJSONMockFactory.CreateMock();
+        request.Name = string.Empty;
 
         var response = await _client.PostAsJsonAsync(Method, request);
         await using var body = await response.Content.ReadAsStreamAsync();
-        var result = await JsonDocument.ParseAsync(body);   
+        var result = await JsonDocument.ParseAsync(body);
         var errors = result.RootElement.GetProperty("errors")
             .EnumerateArray().ToList();
 
@@ -54,7 +55,8 @@ public class RegisterUserEndpoint(WebApplicationMockFactory factory)
     public async Task Test_EmptyEmail_OnFailure(string? culture)
     {
         _client.DefaultRequestHeaders.TryAddWithoutValidation("Accept-Language", culture);
-        var request = RegisterUserRequestJSONMockFactory.CreateMockWithoutEmail();
+        var request = RegisterUserRequestJSONMockFactory.CreateMock();
+        request.Email = string.Empty;
 
         var response = await _client.PostAsJsonAsync(Method, request);
         await using var body = await response.Content.ReadAsStreamAsync();
@@ -74,7 +76,7 @@ public class RegisterUserEndpoint(WebApplicationMockFactory factory)
     public async Task Test_InvalidEmail_OnFailure(string? culture)
     {
         _client.DefaultRequestHeaders.TryAddWithoutValidation("Accept-Language", culture);
-        var request = RegisterUserRequestJSONMockFactory.CreateMockWithInvalidEmail("email.com");
+        var request = RegisterUserRequestJSONMockFactory.CreateMock(invalidEmail: "email.com");
 
         var response = await _client.PostAsJsonAsync(Method, request);
         await using var body = await response.Content.ReadAsStreamAsync();
@@ -94,7 +96,8 @@ public class RegisterUserEndpoint(WebApplicationMockFactory factory)
     public async Task Test_EmptyPassword_OnFailure(string? culture)
     {
         _client.DefaultRequestHeaders.TryAddWithoutValidation("Accept-Language", culture);
-        var request = RegisterUserRequestJSONMockFactory.CreateMockWithoutPassword();
+        var request = RegisterUserRequestJSONMockFactory.CreateMock();
+        request.Password = string.Empty;
 
         var response = await _client.PostAsJsonAsync(Method, request);
         await using var body = await response.Content.ReadAsStreamAsync();
