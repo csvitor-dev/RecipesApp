@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using RecipesApp.API.Converters;
 using RecipesApp.API.Filters;
 using RecipesApp.API.Middlewares;
@@ -5,6 +6,7 @@ using RecipesApp.Application;
 using RecipesApp.Infra.Data.Migrations;
 using RecipesApp.Infra.Extensions;
 
+[assembly: ApiController]
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
