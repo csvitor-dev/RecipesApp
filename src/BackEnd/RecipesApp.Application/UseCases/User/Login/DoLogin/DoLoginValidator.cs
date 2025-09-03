@@ -18,5 +18,10 @@ public class DoLoginValidator : AbstractValidator<LoginUserRequestJSON>
 
         RuleFor(u => u.Password).NotNull().NotEmpty()
             .WithMessage(ResourcesAccessor.PASSWORD_REQUIRED);
+        
+        When(u => string.IsNullOrWhiteSpace(u.Password) is false, ()
+            => RuleFor(u => u.Password.Length).GreaterThanOrEqualTo(6)
+                .WithMessage(ResourcesAccessor.PASSWORD_LENGTH)
+        );
     }
 }
