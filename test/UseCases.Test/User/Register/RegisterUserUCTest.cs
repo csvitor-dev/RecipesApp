@@ -25,7 +25,7 @@ public class RegisterUserUCTest
     [Fact]
     public async Task Test_OnSuccess()
     {
-        var request = RegisterUserRequestJSONMockFactory.CreateMock();
+        var request = UserRequestMockFactory.CreateRegisterRequestMock();
         var uc = CreateUseCase();
 
         var result = await uc.Execute(request);
@@ -37,7 +37,7 @@ public class RegisterUserUCTest
     [Fact]
     public async Task Test_OnFailure_WithEmailAlreadyRegistered()
     {
-        var request = RegisterUserRequestJSONMockFactory.CreateMock();
+        var request = UserRequestMockFactory.CreateRegisterRequestMock();
         var uc = CreateUseCase(request.Email);
 
         var exception = await Assert.ThrowsAsync<ErrorOnValidationException>(Act);

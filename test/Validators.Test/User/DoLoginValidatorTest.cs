@@ -11,7 +11,7 @@ public class DoLoginValidatorTest
     public void Test_OnSuccess()
     {
         var v = new DoLoginValidator();
-        var request = LoginUserRequestJSONMockFactory.CreateMock();
+        var request = UserRequestMockFactory.CreateLoginRequestMock();
 
         var result = v.Validate(request);
 
@@ -22,7 +22,7 @@ public class DoLoginValidatorTest
     public void Test_OnFailureWith_EmptyEmail()
     {
         var v = new DoLoginValidator();
-        var request = LoginUserRequestJSONMockFactory.CreateMock();
+        var request = UserRequestMockFactory.CreateLoginRequestMock();
         request.Email = string.Empty;
 
         var result = v.Validate(request);
@@ -36,7 +36,7 @@ public class DoLoginValidatorTest
     public void Test_OnFailureWith_InvalidEmail()
     {
         var v = new DoLoginValidator();
-        var request = LoginUserRequestJSONMockFactory.CreateMock(invalidEmail: "email.com");
+        var request = UserRequestMockFactory.CreateLoginRequestMock(invalidEmail: "email.com");
 
         var result = v.Validate(request);
 
@@ -49,7 +49,7 @@ public class DoLoginValidatorTest
     public void Test_OnFailureWith_EmptyPassword()
     {
         var v = new DoLoginValidator();
-        var request = LoginUserRequestJSONMockFactory.CreateMock();
+        var request = UserRequestMockFactory.CreateLoginRequestMock();
         request.Password = string.Empty;
 
         var result = v.Validate(request);
@@ -68,7 +68,7 @@ public class DoLoginValidatorTest
     public void Test_OnFailureWith_InvalidPassword(int passwordLength)
     {
         var v = new DoLoginValidator();
-        var request = LoginUserRequestJSONMockFactory.CreateMock(passwordLength);
+        var request = UserRequestMockFactory.CreateLoginRequestMock(passwordLength);
 
         var result = v.Validate(request);
 
