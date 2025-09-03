@@ -2,7 +2,7 @@ using CommonTestUtilities.Requests;
 using RecipesApp.Application.UseCases.User.Register;
 using RecipesApp.Exception.Resources;
 
-namespace Validators.Test.User.Register;
+namespace Validators.Test.User;
 
 public class RegisterUserValidatorTest
 {
@@ -60,8 +60,8 @@ public class RegisterUserValidatorTest
         var result = v.Validate(request);
 
         Assert.False(result.IsValid);
-        Assert.Single(result.Errors, 
-            error=> error.ErrorMessage.Equals(ResourcesAccessor.PASSWORD_REQUIRED));
+        Assert.Single(result.Errors,
+            error => error.ErrorMessage.Equals(ResourcesAccessor.PASSWORD_REQUIRED));
     }
 
     [Theory]
@@ -77,7 +77,7 @@ public class RegisterUserValidatorTest
         var result = v.Validate(request);
 
         Assert.False(result.IsValid);
-        Assert.Single(result.Errors, 
-            error=> error.ErrorMessage.Equals(ResourcesAccessor.PASSWORD_LENGTH));
+        Assert.Single(result.Errors,
+            error => error.ErrorMessage.Equals(ResourcesAccessor.PASSWORD_LENGTH));
     }
 }
