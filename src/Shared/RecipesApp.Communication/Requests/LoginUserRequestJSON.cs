@@ -1,3 +1,7 @@
 namespace RecipesApp.Communication.Requests;
 
-public record LoginUserRequestJSON(string Email = "", string Password = "");
+public class LoginUserRequestJSON(string email = "", string password = "")
+{
+    public string Email { get; set; } = email;
+    public string Password { get; set; } = password;
+}
