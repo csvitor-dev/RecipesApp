@@ -9,12 +9,12 @@ namespace UseCases.Test.User.Register;
 
 public class RegisterUserUCTest
 {
-    private RegisterUserUC CreateUseCase(string? email = null)
+    private static RegisterUserUC CreateUseCase(string? email = null)
     {
         var factory = new UserReadOnlyRepositoryMockFactory();
 
         if (string.IsNullOrEmpty(email) is false)
-            factory.ExistActiveUserWithEmail(email);
+            factory.ExistsActiveUserWithEmail(email);
         var w = UserWriteOnlyRepositoryMockFactory.CreateMock();
         var uw = UnitOfWorkMockFactory.CreateMock();
         var pw = EncryptMockFactory.CreateMock();
